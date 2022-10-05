@@ -3,6 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users/users.model';
 import { UsersModule } from './users/users.module';
+import { RolesModule } from './roles/roles.module';
+import { Roles } from './roles/roles.model';
+import { UserRoles } from './roles/user-roles.model';
 
 @Module({
   controllers: [],
@@ -18,10 +21,11 @@ import { UsersModule } from './users/users.module';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DB,
-      models: [User],
+      models: [User, Roles, UserRoles],
       autoLoadModels: true,
     }),
     UsersModule,
+    RolesModule,
   ],
 })
 export class AppModule {}
