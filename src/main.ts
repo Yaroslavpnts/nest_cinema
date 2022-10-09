@@ -9,6 +9,11 @@ async function start() {
   const config = new DocumentBuilder()
     .setTitle('Nest project documentation')
     .setDescription('Small description to test swagger possibilities')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT'
+    })
     .setVersion('1.0.0')
     .setVersion('LogiTrix')
     .build();
