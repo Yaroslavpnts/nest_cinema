@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 
 async function start() {
   const PORT = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   const config = new DocumentBuilder()
     .setTitle('Nest project documentation')
@@ -12,7 +12,7 @@ async function start() {
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
-      bearerFormat: 'JWT'
+      bearerFormat: 'JWT',
     })
     .setVersion('1.0.0')
     .setVersion('LogiTrix')
