@@ -29,7 +29,7 @@ import { MoviesModule } from './movies/movies.module';
     UsersModule,
     RolesModule,
     AuthModule,
-    MoviesModule
+    MoviesModule,
   ],
 })
 export class AppModule {}
