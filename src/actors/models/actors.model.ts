@@ -44,7 +44,7 @@ export class Actors extends Model<Actors> {
   @ApiProperty({ example: 'USA', description: 'Actors photo link' })
   @Column({ type: DataType.STRING })
   photo_src: string;
-  
+
   @BelongsToMany(() => Movies, () => ActorsMovies)
   movies: Movies[];
 }

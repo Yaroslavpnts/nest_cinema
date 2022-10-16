@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -20,9 +30,9 @@ export class ActorsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllActors() {
-    return this.actorsService.getAll();
-  };
+  getAllActors(@Query() q: { [key: string]: string }) {
+    return this.actorsService.getActors(q.name);
+  }
 
   @ApiOperation({ summary: 'Get all movie categories' })
   @ApiResponse({ status: 201, type: Actors })
@@ -30,7 +40,7 @@ export class ActorsController {
   @Post()
   addActor(@Body() actorDto: CreateActorDto) {
     return this.actorsService.create(actorDto);
-  };
+  }
 
   @ApiOperation({ summary: 'Get all movie categories' })
   @ApiResponse({ status: 204 })
