@@ -19,4 +19,12 @@ export class RolesService {
     });
     return response;
   }
+
+  async getRoleById(id: string) {
+    const response = this.rolesRepository.findOne({
+      where: { id },
+      include: { all: true },
+    });
+    return response;
+  }
 }
