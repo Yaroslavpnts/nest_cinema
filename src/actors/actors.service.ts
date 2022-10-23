@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { CreateActorDto } from './dto/create-actor.dto';
@@ -20,8 +20,13 @@ export class ActorsService {
   }
 
   async create(dto: CreateActorDto) {
-    const actor = await this.actorsRepository.create(dto);
-    return actor;
+    try {
+      const actor = await this.actorsRepository.create(dto);
+      return actor;
+    } catch (err) {
+      const [error] = err.errors;
+      throw new HttpException(error.message, HttpStatus.FORBIDDEN);
+    }
   }
 
   async delete(id: number) {
