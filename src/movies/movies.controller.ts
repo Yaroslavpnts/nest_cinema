@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -15,9 +24,7 @@ import { MoviesService } from './movies.service';
 @ApiTags('Movies api')
 @Controller('movies')
 export class MoviesController {
-  constructor(
-    private moviesService: MoviesService
-  ) {}
+  constructor(private moviesService: MoviesService) {}
 
   @ApiOperation({ summary: 'Get all movies' })
   @ApiResponse({ status: 200, type: [Movies] })
