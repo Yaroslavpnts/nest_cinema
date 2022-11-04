@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -48,6 +49,13 @@ export class MoviesController {
   @Post()
   addMovie(@Body() dto: CreateMovieDto) {
     return this.moviesService.addMovie(dto);
+  }
+
+  @ApiOperation({ summary: 'Add movie' })
+  @ApiResponse({ status: 201, type: Movies })
+  @Put()
+  updateMovie(@Body() dto: CreateMovieDto) {
+    return this.moviesService.updateMovie(dto);
   }
 
   @ApiOperation({ summary: 'Get all movie categories' })

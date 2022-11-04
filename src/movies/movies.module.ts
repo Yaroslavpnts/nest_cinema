@@ -15,17 +15,15 @@ import { ActorsMovies } from './models/actors-movies.model';
   providers: [MoviesService],
   controllers: [MoviesController],
   imports: [
-    SequelizeModule.forFeature(
-      [
-        Category,
-        Actors,
-        Directors,
-        Movies,
-        CategoriesMovies,
-        DirectorsMovies,
-        ActorsMovies
-      ]
-    ),
+    SequelizeModule.forFeature([
+      Category,
+      Actors,
+      Directors,
+      Movies,
+      CategoriesMovies,
+      DirectorsMovies,
+      ActorsMovies,
+    ]),
     forwardRef(() => AuthModule),
   ],
   exports: [MoviesService],

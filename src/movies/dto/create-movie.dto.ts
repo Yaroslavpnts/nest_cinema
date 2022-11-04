@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMovieDto {
   @ApiProperty({ example: 'La La Lend' })
@@ -17,4 +17,10 @@ export class CreateMovieDto {
   readonly imdb_rating?: string;
   @ApiProperty({ example: 'https://some-url.com' })
   readonly poster_src?: string;
+  @ApiProperty({ example: 'https://some-url.com' })
+  readonly id?: string;
+  @ApiProperty({ example: 'https://some-url.com' })
+  readonly wide_poster_src?: string;
+  @ApiProperty({ example: '1996' })
+  readonly production_year?: string;
 }

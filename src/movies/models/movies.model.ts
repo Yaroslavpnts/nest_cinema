@@ -24,6 +24,8 @@ interface MovieCreationAttrs {
   rating?: string;
   imdb_rating?: string;
   poster_src?: string;
+  wide_poster_src?: string;
+  production_year?: string;
 }
 
 @Table({
@@ -45,21 +47,41 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   name: string;
 
-  @ApiProperty({ example: 'Some description', description: 'Short description to movie' })
+  @ApiProperty({
+    example: 'Some description',
+    description: 'Short description to movie',
+  })
   @Column({ type: DataType.STRING })
   description: string;
 
   @ApiProperty({ example: 'PG', description: 'Rating of movie' })
-  @Column({ type: ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'), })
+  @Column({ type: ENUM('G', 'PG', 'PG-13', 'R', 'NC-17') })
   rating?: 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17';
 
   @ApiProperty({ example: '8.0', description: 'Rating from imdb platform' })
   @Column({ type: DataType.STRING })
   imdb_rating: string;
 
-  @ApiProperty({ example: 'https://some-url.com', description: 'Link to movies poster' })
+  @ApiProperty({
+    example: 'https://some-url.com',
+    description: 'Link to movies poster',
+  })
   @Column({ type: DataType.STRING })
   poster_src: string;
+
+  @ApiProperty({
+    example: 'https://some-url.com',
+    description: 'Link to wide movies poster',
+  })
+  @Column({ type: DataType.STRING })
+  wide_poster_src: string;
+
+  @ApiProperty({
+    example: 'https://some-url.com',
+    description: 'Year of production',
+  })
+  @Column({ type: DataType.STRING })
+  production_year: string;
 
   @BelongsToMany(() => Category, () => CategoriesMovies)
   genres: Category[];
