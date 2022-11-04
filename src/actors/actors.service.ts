@@ -33,6 +33,7 @@ export class ActorsService {
     const actor = await this.actorsRepository.destroy({
       where: { actor_id: id },
     });
+
     return actor;
   }
 }

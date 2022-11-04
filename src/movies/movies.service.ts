@@ -88,6 +88,7 @@ export class MoviesService {
         });
       });
     }
+    return movie;
   }
 
   async removeMovie(id: number) {
