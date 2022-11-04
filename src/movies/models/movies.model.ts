@@ -77,10 +77,10 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
   wide_poster_src: string;
 
   @ApiProperty({
-    example: 'https://some-url.com',
-    description: 'Year of production',
+    example: '1992',
+    description: 'Production year of the movie',
   })
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, allowNull: true })
   production_year: string;
 
   @BelongsToMany(() => Category, () => CategoriesMovies)
