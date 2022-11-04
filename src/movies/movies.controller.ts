@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
   Put,
   UseGuards,
@@ -53,7 +54,7 @@ export class MoviesController {
 
   @ApiOperation({ summary: 'Add movie' })
   @ApiResponse({ status: 201, type: Movies })
-  @Put()
+  @Patch()
   updateMovie(@Body() dto: CreateMovieDto) {
     return this.moviesService.updateMovie(dto);
   }
