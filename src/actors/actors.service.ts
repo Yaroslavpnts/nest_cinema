@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
+import { Movies } from 'src/movies/models/movies.model';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { Actors } from './models/actors.model';
 
@@ -24,6 +25,12 @@ export class ActorsService {
       where: {
         actor_id: id,
       },
+      include: [
+        {
+          model: Movies,
+          through: { attributes: [] },
+        },
+      ],
     });
     return actor;
   }
