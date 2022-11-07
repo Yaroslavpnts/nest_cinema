@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -25,7 +26,7 @@ import { Actors } from './models/actors.model';
 export class ActorsController {
   constructor(private actorsService: ActorsService) {}
 
-  @ApiOperation({ summary: 'Get all movie categories' })
+  @ApiOperation({ summary: 'Get all actors' })
   @ApiResponse({ status: 200, type: Actors })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -34,7 +35,16 @@ export class ActorsController {
     return this.actorsService.getActors(q.name);
   }
 
-  @ApiOperation({ summary: 'Get all movie categories' })
+  @ApiOperation({ summary: 'Get one actor' })
+  @ApiResponse({ status: 200, type: Actors })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  getOneActor(@Param('id') id: number) {
+    return this.actorsService.getOneActor(id);
+  }
+
+  @ApiOperation({ summary: 'Add actor' })
   @ApiResponse({ status: 201, type: Actors })
   @HttpCode(201)
   @Post()
@@ -42,7 +52,15 @@ export class ActorsController {
     return this.actorsService.create(actorDto);
   }
 
-  @ApiOperation({ summary: 'Get all movie categories' })
+  @ApiOperation({ summary: 'Add actor' })
+  @ApiResponse({ status: 201, type: Actors })
+  @HttpCode(201)
+  @Patch(':id')
+  updateActor(@Param('id') id: string, @Body() actorDto: CreateActorDto) {
+    return this.actorsService.update(id, actorDto);
+  }
+
+  @ApiOperation({ summary: 'Remove actor' })
   @ApiResponse({ status: 204 })
   @HttpCode(204)
   @Delete(':id')

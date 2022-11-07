@@ -35,6 +35,13 @@ export class MoviesController {
     return this.moviesService.getAllFilms();
   }
 
+  @ApiOperation({ summary: 'Get one movie' })
+  @ApiResponse({ status: 200, type: Movies })
+  @Get(':id')
+  getOneMovie(@Param('id') id: number) {
+    return this.moviesService.getOneFilm(id);
+  }
+
   @ApiOperation({ summary: 'Remove movie' })
   @ApiResponse({ status: 204 })
   @ApiBearerAuth()
@@ -52,7 +59,7 @@ export class MoviesController {
     return this.moviesService.addMovie(dto);
   }
 
-  @ApiOperation({ summary: 'Add movie' })
+  @ApiOperation({ summary: 'Update movie' })
   @ApiResponse({ status: 201, type: Movies })
   @Patch()
   updateMovie(@Body() dto: CreateMovieDto) {

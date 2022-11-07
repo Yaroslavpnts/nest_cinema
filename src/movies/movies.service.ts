@@ -56,6 +56,29 @@ export class MoviesService {
     return result;
   }
 
+  async getOneFilm(id: number) {
+    const result = await this.moviesRepository.findOne({
+      where: {
+        id,
+      },
+      include: [
+        {
+          model: Actors,
+          through: { attributes: [] },
+        },
+        {
+          model: Directors,
+          through: { attributes: [] },
+        },
+        {
+          model: Category,
+          through: { attributes: [] },
+        },
+      ],
+    });
+    return result;
+  }
+
   async updateMovie(dto: CreateMovieDto) {
     await this.moviesRepository.update(
       {
@@ -64,6 +87,7 @@ export class MoviesService {
         rating: dto.rating,
         imdb_rating: dto.imdb_rating,
         poster_src: dto.poster_src,
+        wide_poster_src: dto.wide_poster_src,
         production_year: dto.production_year,
       },
       {
@@ -77,13 +101,13 @@ export class MoviesService {
         id: dto.id,
       },
     });
-    if (dto.directors.length) {
+    if (dto.directors?.length) {
       movie.$set('directors', dto.directors);
     }
-    if (dto.genres.length) {
+    if (dto.genres?.length) {
       movie.$set('genres', dto.genres);
     }
-    if (dto.actors.length) {
+    if (dto.actors?.length) {
       movie.$set('actors', dto.actors);
     }
   }

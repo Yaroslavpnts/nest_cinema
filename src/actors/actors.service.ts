@@ -19,10 +19,31 @@ export class ActorsService {
     return actors;
   }
 
+  async getOneActor(id: number) {
+    const actor = await this.actorsRepository.findOne({
+      where: {
+        actor_id: id,
+      },
+    });
+    return actor;
+  }
+
   async create(dto: CreateActorDto) {
     try {
       const actor = await this.actorsRepository.create(dto);
       return actor;
+    } catch (err) {
+      const [error] = err.errors;
+      throw new HttpException(error.message, HttpStatus.FORBIDDEN);
+    }
+  }
+
+  async update(id: string, dto: CreateActorDto) {
+    try {
+      await this.actorsRepository.update(dto, {
+        where: { actor_id: id },
+      });
+      return true;
     } catch (err) {
       const [error] = err.errors;
       throw new HttpException(error.message, HttpStatus.FORBIDDEN);
