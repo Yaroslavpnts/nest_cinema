@@ -16,6 +16,8 @@ interface UserCreationAttrs {
 
 @Table({
   tableName: 'nest_user',
+  createdAt: false,
+  updatedAt: false,
 })
 export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: 1, description: 'Uniq identifier of user' })
