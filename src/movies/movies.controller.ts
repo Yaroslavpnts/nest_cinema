@@ -30,9 +30,16 @@ export class MoviesController {
 
   @ApiOperation({ summary: 'Get all movies' })
   @ApiResponse({ status: 200, type: [Movies] })
-  @Get('')
+  @Get()
   getAllMovies() {
     return this.moviesService.getAllFilms();
+  }
+
+  @ApiOperation({ summary: 'Get all movie categories' })
+  @ApiResponse({ status: 200, type: [Category] })
+  @Get('categoriesss')
+  getAllCategories() {
+    return this.moviesService.getAllCategories();
   }
 
   @ApiOperation({ summary: 'Get one movie' })
@@ -64,15 +71,6 @@ export class MoviesController {
   @Patch()
   updateMovie(@Body() dto: CreateMovieDto) {
     return this.moviesService.updateMovie(dto);
-  }
-
-  @ApiOperation({ summary: 'Get all movie categories' })
-  @ApiResponse({ status: 200, type: [Category] })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('/categories')
-  getAllCategories() {
-    return this.moviesService.getAllCategories();
   }
 
   @ApiOperation({ summary: 'Create category' })
