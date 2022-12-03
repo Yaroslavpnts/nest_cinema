@@ -4,7 +4,7 @@ import { CinemaHallsService } from './cinema_halls.service';
 import { CreateCinemaHallDto } from './dto/create-cinema_hall.dto';
 
 @ApiTags('Cinema halls api')
-@Controller('cinemaHalls')
+@Controller('cinema_halls')
 export class CinemaHallsController {
   constructor(private cinemaHallsService: CinemaHallsService) {}
 
