@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Actors } from 'src/actors/models/actors.model';
 import { Directors } from 'src/directors/models/director.model';
+import { Session } from 'src/sessions/models/sessions.model';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { ActorsMovies } from './models/actors-movies.model';
@@ -51,8 +52,10 @@ export class MoviesService {
           model: Category,
           through: { attributes: [] },
         },
+        { model: Session },
       ],
     });
+
     return result;
   }
 
@@ -74,6 +77,7 @@ export class MoviesService {
           model: Category,
           through: { attributes: [] },
         },
+        { model: Session },
       ],
     });
     return result;
@@ -120,6 +124,8 @@ export class MoviesService {
       imdb_rating: dto.imdb_rating,
       poster_src: dto.poster_src,
       production_year: dto.production_year,
+      start_date_session: dto.start_date_session,
+      end_date_session: dto.end_date_session,
     });
     if (dto.directors.length) {
       await dto.directors.forEach(async (id) => {

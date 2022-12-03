@@ -10,6 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { MoviesModule } from './movies/movies.module';
 import { ActorsModule } from './actors/actors.module';
 import { DirectorModule } from './directors/directors.module';
+import { SessionsModule } from './sessions/sessions.module';
+import { CinemasModule } from './cinemas/cinemas.module';
+import { CitiesModule } from './cities/cities.module';
+import { CinemaHallsModule } from './cinema_halls/cinema_halls.module';
 
 @Module({
   controllers: [],
@@ -34,6 +38,10 @@ import { DirectorModule } from './directors/directors.module';
     RolesModule,
     MoviesModule,
     DirectorModule,
+    SessionsModule,
+    CinemasModule,
+    CitiesModule,
+    CinemaHallsModule,
   ],
 })
 export class AppModule {}

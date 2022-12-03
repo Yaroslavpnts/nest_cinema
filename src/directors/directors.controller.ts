@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -22,7 +31,7 @@ export class DirectorController {
   @Get()
   getAllDirectors() {
     return this.directorsService.getAll();
-  };
+  }
 
   @ApiOperation({ summary: 'Add director' })
   @ApiResponse({ status: 201, type: Directors })
@@ -30,7 +39,7 @@ export class DirectorController {
   @Post()
   addDirector(@Body() actorDto: CreateDirectorDto) {
     return this.directorsService.create(actorDto);
-  };
+  }
 
   @ApiOperation({ summary: 'Remove particular director' })
   @ApiResponse({ status: 204 })

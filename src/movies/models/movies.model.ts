@@ -4,12 +4,13 @@ import {
   BelongsToMany,
   Column,
   DataType,
-  ForeignKey,
   Model,
   Table,
+  HasMany,
 } from 'sequelize-typescript';
 import { Actors } from 'src/actors/models/actors.model';
 import { Directors } from 'src/directors/models/director.model';
+import { Session } from 'src/sessions/models/sessions.model';
 import { ActorsMovies } from './actors-movies.model';
 import { CategoriesMovies } from './categories-movies.model';
 import { Category } from './category.model';
@@ -26,6 +27,8 @@ interface MovieCreationAttrs {
   poster_src?: string;
   wide_poster_src?: string;
   production_year?: string;
+  start_date_session?: string;
+  end_date_session?: string;
 }
 
 @Table({
@@ -83,6 +86,12 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: true })
   production_year: string;
 
+  @Column({ type: DataType.STRING, allowNull: true })
+  start_date_session: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  end_date_session: string;
+
   @BelongsToMany(() => Category, () => CategoriesMovies)
   genres: Category[];
 
@@ -91,4 +100,7 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
 
   @BelongsToMany(() => Actors, () => ActorsMovies)
   actors: Actors[];
+
+  @HasMany(() => Session)
+  sessions: Session[];
 }

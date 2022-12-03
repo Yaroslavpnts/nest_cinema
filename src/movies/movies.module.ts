@@ -10,6 +10,7 @@ import { Movies } from './models/movies.model';
 import { CategoriesMovies } from './models/categories-movies.model';
 import { DirectorsMovies } from './models/directors-movies.model';
 import { ActorsMovies } from './models/actors-movies.model';
+import { Session } from 'src/sessions/models/sessions.model';
 
 @Module({
   providers: [MoviesService],
@@ -23,6 +24,7 @@ import { ActorsMovies } from './models/actors-movies.model';
       CategoriesMovies,
       DirectorsMovies,
       ActorsMovies,
+      Session,
     ]),
     forwardRef(() => AuthModule),
   ],

@@ -37,7 +37,7 @@ export class MoviesController {
 
   @ApiOperation({ summary: 'Get all movie categories' })
   @ApiResponse({ status: 200, type: [Category] })
-  @Get('categoriesss')
+  @Get('categories')
   getAllCategories() {
     return this.moviesService.getAllCategories();
   }

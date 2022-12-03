@@ -40,10 +40,13 @@ export class Directors extends Model<Directors> {
   @Column({ type: DataType.STRING })
   country: string;
 
-  @ApiProperty({ example: 'https://some-url.com', description: 'Directors photo link' })
+  @ApiProperty({
+    example: 'https://some-url.com',
+    description: 'Directors photo link',
+  })
   @Column({ type: DataType.STRING })
   photo_src?: string;
-  
+
   @BelongsToMany(() => Movies, () => DirectorsMovies)
   movies: Movies[];
 }

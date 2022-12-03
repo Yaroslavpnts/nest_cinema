@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateCategoryDto {
-  @ApiProperty({ example: 'Action' })
+export class CreateCityDto {
+  @ApiProperty({ example: 'Poltava' })
   readonly name: string;
 }

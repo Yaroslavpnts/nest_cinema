@@ -23,4 +23,8 @@ export class CreateMovieDto {
   readonly wide_poster_src?: string;
   @ApiProperty({ example: '1996' })
   readonly production_year?: string;
+  @ApiProperty({ example: '2022-12-02' })
+  readonly start_date_session?: string;
+  @ApiProperty({ example: '2022-12-25' })
+  readonly end_date_session?: string;
 }
