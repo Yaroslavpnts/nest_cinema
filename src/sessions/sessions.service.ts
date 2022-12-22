@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CinemaHall } from 'src/cinema_halls/models/cinemas_hall.model';
+import { Movies } from 'src/movies/models/movies.model';
 import { CreateSessionDto } from './dto/create-session.dto.';
 import { Session } from './models/sessions.model';
 
@@ -22,5 +23,14 @@ export class SessionsService {
     });
 
     return session;
+  }
+
+  getSessionsByDate(date: string) {
+    const sessions = this.sessionRepository.findAll({
+      where: { date },
+      include: [Movies, CinemaHall],
+    });
+
+    return sessions;
   }
 }

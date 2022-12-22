@@ -35,7 +35,7 @@ export class Session extends Model<Session, SessionCreationAttrs> {
   session_id: number;
 
   @ApiProperty({ example: '2022-12-01', description: "Session's day" })
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.DATE })
   date: string;
 
   @ApiProperty({ example: '14:00', description: "Session's start time" })

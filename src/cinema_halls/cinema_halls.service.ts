@@ -17,11 +17,17 @@ export class CinemaHallsService {
     return cinemaHall;
   }
 
-  async getCinemaHallsWithSessions(cinema_id: number) {
+  async getCinemaHallsWithSessionsByCinema(cinema_id: number) {
     const cinemaHalls = this.cinemaHallRepository.findAll({
       where: { cinema_id },
       include: Session,
     });
+
+    return cinemaHalls;
+  }
+
+  async getCinemaHalls() {
+    const cinemaHalls = this.cinemaHallRepository.findAll();
 
     return cinemaHalls;
   }

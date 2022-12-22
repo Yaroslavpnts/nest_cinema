@@ -10,7 +10,12 @@ export class CinemaHallsController {
 
   @Get(':id')
   getCinemaHallsWithSessions(@Param('id') id: number) {
-    return this.cinemaHallsService.getCinemaHallsWithSessions(id);
+    return this.cinemaHallsService.getCinemaHallsWithSessionsByCinema(id);
+  }
+
+  @Get()
+  getCinemaHalls() {
+    return this.cinemaHallsService.getCinemaHalls();
   }
 
   @Post()

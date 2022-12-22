@@ -11,6 +11,9 @@ import { Category } from './models/category.model';
 import { DirectorsMovies } from './models/directors-movies.model';
 import { Movies } from './models/movies.model';
 
+import { Op } from 'sequelize';
+import sequelize from 'sequelize';
+
 @Injectable()
 export class MoviesService {
   constructor(
@@ -157,5 +160,47 @@ export class MoviesService {
   async removeMovie(id: number) {
     const result = await this.moviesRepository.destroy({ where: { id } });
     return result;
+  }
+
+  async getAllMoviesWithSessionsByDateAndByCinemaHalls(
+    dateStart: string,
+    dateEnd: string,
+    cinemaHalls: string,
+  ) {
+    const halls = cinemaHalls.split(',').map((hall) => Number(hall));
+
+    const dateMax = new Date(dateEnd);
+    const dateMin = new Date(dateStart);
+
+    const result = await this.moviesRepository.findAll({
+      include: {
+        model: Session,
+        required: true,
+        where: {
+          date: {
+            [Op.lte]: dateMax.setMinutes(dateMax.getMinutes() + 1),
+
+            [Op.gte]: dateMin.setMinutes(dateMin.getMinutes() - 1),
+          },
+          cinema_hall_id: { [Op.in]: halls },
+        },
+      },
+      // order: [[Session, 'session_start', 'ASC']],
+    });
+
+    return result;
+  }
+
+  async getMoviesBySearch(search: string) {
+    const movies = await this.moviesRepository.findAll({
+      limit: 7,
+      where: sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('name')),
+        'LIKE',
+        '%' + search.toLowerCase() + '%',
+      ),
+    });
+
+    return movies;
   }
 }

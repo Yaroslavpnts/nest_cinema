@@ -12,6 +12,7 @@ import { ActorsMovies } from 'src/movies/models/actors-movies.model';
 import { Movies } from 'src/movies/models/movies.model';
 
 interface CityCreationAttrs {
+  city_id: number;
   name: string;
 }
 

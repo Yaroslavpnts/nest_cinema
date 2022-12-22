@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Put,
   UseGuards,
 } from '@nestjs/common';
@@ -28,6 +29,13 @@ import { MoviesService } from './movies.service';
 export class MoviesController {
   constructor(private moviesService: MoviesService) {}
 
+  @ApiOperation({ summary: 'Get movies by search' })
+  @ApiResponse({ status: 200, type: [Movies] })
+  @Get('/search')
+  getMoviesBySearch(@Query('search') search: string) {
+    return this.moviesService.getMoviesBySearch(search);
+  }
+
   @ApiOperation({ summary: 'Get all movies' })
   @ApiResponse({ status: 200, type: [Movies] })
   @Get()
@@ -40,6 +48,19 @@ export class MoviesController {
   @Get('categories')
   getAllCategories() {
     return this.moviesService.getAllCategories();
+  }
+
+  @ApiOperation({ summary: 'Get all movies with sessions by date' })
+  @ApiResponse({ status: 200, type: [Movies] })
+  @Get('filter')
+  getAllMoviesWithSessionsByDate(
+    @Query() query: { dateStart: string; cinemaHalls: string; dateEnd: string },
+  ) {
+    return this.moviesService.getAllMoviesWithSessionsByDateAndByCinemaHalls(
+      query.dateStart,
+      query.dateEnd,
+      query.cinemaHalls,
+    );
   }
 
   @ApiOperation({ summary: 'Get one movie' })

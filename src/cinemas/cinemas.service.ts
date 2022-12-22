@@ -8,12 +8,20 @@ export class CinemasService {
   constructor(@InjectModel(Cinema) private cinemasRepository: typeof Cinema) {}
 
   async getAllCinemas() {
-    console.log(2222);
     const result = await this.cinemasRepository.findAll();
-    console.log(3333, result);
 
     return result;
   }
+
+  // async getAllCinemasByCity(city_id: number) {
+  //   const cinemas = await this.cinemasRepository.findAll({
+  //     where: {
+  //       city_id,
+  //     },
+  //   });
+
+  //   return cinemas;
+  // }
 
   async createCinema(dto: CreateCinemaDto) {
     const result = await this.cinemasRepository.create(dto);

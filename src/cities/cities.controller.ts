@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CitiesService } from './cities.service';
 import { CreateCityDto } from './dto/create-city.dto';
@@ -20,7 +20,14 @@ export class CitiesController {
   @ApiResponse({ status: 200, type: [City] })
   @Get()
   getAllCities() {
-    console.log(1);
     return this.citiesService.getAllCities();
   }
+
+  // @ApiOperation({ summary: 'Get one city' })
+  // @ApiResponse({ status: 200, type: City })
+  // @Get(':id')
+  // getOneCity(@Param('id') id: string) {
+  //   console.log(id);
+  //   return this.citiesService.findCityWithCinemasCinemaHallsAndSessions(+id);
+  // }
 }
