@@ -29,6 +29,7 @@ interface MovieCreationAttrs {
   production_year?: string;
   start_date_session?: string;
   end_date_session?: string;
+  duration: number;
 }
 
 @Table({
@@ -83,8 +84,15 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
     example: '1992',
     description: 'Production year of the movie',
   })
-  @Column({ type: DataType.STRING, allowNull: true })
+  @Column({ type: DataType.STRING })
   production_year: string;
+
+  @ApiProperty({
+    example: '120',
+    description: 'Movie duration',
+  })
+  @Column({ type: DataType.NUMBER })
+  duration: number;
 
   @Column({ type: DataType.STRING, allowNull: true })
   start_date_session: string;

@@ -8,12 +8,17 @@ export class SessionsController {
   constructor(private sessionsService: SessionsService) {}
 
   @Post()
-  createSession(@Body() dto: CreateSessionDto) {
-    return this.sessionsService.createSession(dto);
+  createSession(@Body() dto: CreateSessionDto[]) {
+    return this.sessionsService.createSessions(dto);
+  }
+
+  @Get()
+  getAllSessions() {
+    return this.sessionsService.getSessions();
   }
 
   @Get(':date')
-  getSessions(@Param('date') date: string) {
+  getSessionsByDate(@Param('date') date: string) {
     return this.sessionsService.getSessionsByDate(date);
   }
 }

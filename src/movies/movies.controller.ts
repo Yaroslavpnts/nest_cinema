@@ -8,8 +8,8 @@ import {
   Patch,
   Post,
   Query,
-  Put,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -66,8 +66,14 @@ export class MoviesController {
   @ApiOperation({ summary: 'Get one movie' })
   @ApiResponse({ status: 200, type: Movies })
   @Get(':id')
-  getOneMovie(@Param('id') id: number) {
-    return this.moviesService.getOneFilm(id);
+  async getOneMovie(@Param('id') id: number) {
+    const movie = await this.moviesService.getOneFilm(id);
+
+    if (!movie) {
+      throw new NotFoundException('Такого фільму не існує');
+    }
+
+    return movie;
   }
 
   @ApiOperation({ summary: 'Remove movie' })

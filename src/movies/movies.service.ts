@@ -28,9 +28,7 @@ export class MoviesService {
   ) {}
 
   async getAllCategories() {
-    console.log(2222);
     const result = await this.categoryRepository.findAll();
-    console.log(3333, result);
 
     return result;
   }
@@ -83,6 +81,9 @@ export class MoviesService {
         { model: Session },
       ],
     });
+
+    console.log(result);
+
     return result;
   }
 
@@ -126,35 +127,43 @@ export class MoviesService {
       rating: dto.rating,
       imdb_rating: dto.imdb_rating,
       poster_src: dto.poster_src,
+      wide_poster_src: dto.wide_poster_src,
       production_year: dto.production_year,
       start_date_session: dto.start_date_session,
       end_date_session: dto.end_date_session,
+      duration: dto.duration,
     });
-    if (dto.directors.length) {
-      await dto.directors.forEach(async (id) => {
-        await this.dirMovieRepository.create({
-          filmId: movie.id,
-          directorId: id,
-        });
-      });
-    }
-    if (dto.genres.length) {
-      await dto.genres.forEach(async (id) => {
-        await this.categMovieRepository.create({
-          filmId: movie.id,
-          categoryId: id,
-        });
-      });
-    }
-    if (dto.actors.length) {
-      await dto.actors.forEach(async (id) => {
-        await this.actorMovieRepository.create({
+
+    const promiseActors = await Promise.all(
+      dto.actors.map((id) => {
+        return this.actorMovieRepository.create({
           filmId: movie.id,
           actorId: id,
         });
-      });
-    }
-    return movie;
+      }),
+    );
+
+    console.log('i am here', promiseActors);
+
+    const promiseDirectors = await Promise.all(
+      dto.directors.map((id) => {
+        return this.dirMovieRepository.create({
+          filmId: movie.id,
+          directorId: id,
+        });
+      }),
+    );
+
+    const promiseGenres = await Promise.all(
+      dto.genres.map((id) => {
+        return this.categMovieRepository.create({
+          filmId: movie.id,
+          categoryId: id,
+        });
+      }),
+    );
+
+    return await this.getOneFilm(movie.id);
   }
 
   async removeMovie(id: number) {

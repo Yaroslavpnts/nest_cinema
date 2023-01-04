@@ -27,4 +27,6 @@ export class CreateMovieDto {
   readonly start_date_session?: string;
   @ApiProperty({ example: '2022-12-25' })
   readonly end_date_session?: string;
+  @ApiProperty({ example: '2022-12-25' })
+  readonly duration: number;
 }
