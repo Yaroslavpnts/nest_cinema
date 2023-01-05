@@ -39,8 +39,15 @@ export class MoviesController {
   @ApiOperation({ summary: 'Get all movies' })
   @ApiResponse({ status: 200, type: [Movies] })
   @Get()
+  getMoviesPagination(@Query() query: { page: string; size: string }) {
+    return this.moviesService.getMoviesPagination(query.page, query.size);
+  }
+
+  @ApiOperation({ summary: 'Get all movies' })
+  @ApiResponse({ status: 200, type: [Movies] })
+  @Get('/all')
   getAllMovies() {
-    return this.moviesService.getAllFilms();
+    return this.moviesService.getAllMovies();
   }
 
   @ApiOperation({ summary: 'Get all movie categories' })
@@ -54,9 +61,14 @@ export class MoviesController {
   @ApiResponse({ status: 200, type: [Movies] })
   @Get('filter')
   getAllMoviesWithSessionsByDate(
-    @Query() query: { dateStart: string; cinemaHalls: string; dateEnd: string },
+    @Query()
+    query: {
+      dateStart: string;
+      cinemaHalls?: string;
+      dateEnd: string;
+    },
   ) {
-    return this.moviesService.getAllMoviesWithSessionsByDateAndByCinemaHalls(
+    return this.moviesService.getAllMoviesByFilters(
       query.dateStart,
       query.dateEnd,
       query.cinemaHalls,

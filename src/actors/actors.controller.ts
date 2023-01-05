@@ -28,11 +28,20 @@ export class ActorsController {
 
   @ApiOperation({ summary: 'Get all actors' })
   @ApiResponse({ status: 200, type: Actors })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   @Get()
-  getAllActors(@Query() q: { [key: string]: string }) {
-    return this.actorsService.getActors(q.name);
+  getActorsPagination(@Query() query: { page: string; size: string }) {
+    return this.actorsService.getActorsPagination(query.page, query.size);
+  }
+
+  @ApiOperation({ summary: 'Get all actors' })
+  @ApiResponse({ status: 200, type: Actors })
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  @Get('/all')
+  getAllActors() {
+    return this.actorsService.getAllActors();
   }
 
   @ApiOperation({ summary: 'Get one actor' })

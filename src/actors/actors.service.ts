@@ -9,14 +9,45 @@ import { Actors } from './models/actors.model';
 export class ActorsService {
   constructor(@InjectModel(Actors) private actorsRepository: typeof Actors) {}
 
-  async getActors(name?: string) {
-    const actors = await this.actorsRepository.findAll({
-      where: {
-        name: {
-          [Op.like]: '%' + (name || '') + '%',
-        },
-      },
+  async getActorsPagination(page: string, size: string) {
+    // const actors = await this.actorsRepository.findAll({
+    //   where: {
+    //     name: {
+    //       [Op.like]: '%' + (name || '') + '%',
+    //     },
+    //   },
+    // });
+
+    const pageAsNumber = Number.parseInt(page);
+    const sizeAsNumber = Number.parseInt(size);
+
+    let currentPage = 0;
+
+    if (!Number.isNaN(pageAsNumber) && pageAsNumber >= 0) {
+      currentPage = pageAsNumber;
+    }
+
+    let currentSize = 10;
+
+    if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0) {
+      currentSize = sizeAsNumber;
+    }
+
+    const result = await this.actorsRepository.findAndCountAll({
+      limit: +currentSize,
+      offset: +currentPage * +currentSize,
+      distinct: true,
     });
+
+    return {
+      content: result.rows,
+      totalPages: Math.ceil(result.count / currentSize),
+      totalCount: result.count,
+    };
+  }
+
+  async getAllActors() {
+    const actors = await this.actorsRepository.findAll();
     return actors;
   }
 

@@ -38,8 +38,26 @@ export class MoviesService {
     return result;
   }
 
-  async getAllFilms() {
-    const result = await this.moviesRepository.findAll({
+  async getMoviesPagination(page: string, size: string) {
+    const pageAsNumber = Number.parseInt(page);
+    const sizeAsNumber = Number.parseInt(size);
+
+    let currentPage = 0;
+
+    if (!Number.isNaN(pageAsNumber) && pageAsNumber >= 0) {
+      currentPage = pageAsNumber;
+    }
+
+    let currentSize = 10;
+
+    if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0) {
+      currentSize = sizeAsNumber;
+    }
+
+    const result = await this.moviesRepository.findAndCountAll({
+      limit: +currentSize,
+      offset: +currentPage * +currentSize,
+      distinct: true,
       include: [
         {
           model: Actors,
@@ -57,7 +75,32 @@ export class MoviesService {
       ],
     });
 
-    return result;
+    return {
+      content: result.rows,
+      totalPages: Math.ceil(result.count / currentSize),
+      totalCount: result.count,
+    };
+  }
+
+  async getAllMovies() {
+    const movies = await this.moviesRepository.findAll({
+      include: [
+        {
+          model: Actors,
+          through: { attributes: [] },
+        },
+        {
+          model: Directors,
+          through: { attributes: [] },
+        },
+        {
+          model: Category,
+          through: { attributes: [] },
+        },
+        { model: Session },
+      ],
+    });
+    return movies;
   }
 
   async getOneFilm(id: number) {
@@ -81,8 +124,6 @@ export class MoviesService {
         { model: Session },
       ],
     });
-
-    console.log(result);
 
     return result;
   }
@@ -134,7 +175,7 @@ export class MoviesService {
       duration: dto.duration,
     });
 
-    const promiseActors = await Promise.all(
+    await Promise.all(
       dto.actors.map((id) => {
         return this.actorMovieRepository.create({
           filmId: movie.id,
@@ -143,9 +184,7 @@ export class MoviesService {
       }),
     );
 
-    console.log('i am here', promiseActors);
-
-    const promiseDirectors = await Promise.all(
+    await Promise.all(
       dto.directors.map((id) => {
         return this.dirMovieRepository.create({
           filmId: movie.id,
@@ -154,7 +193,7 @@ export class MoviesService {
       }),
     );
 
-    const promiseGenres = await Promise.all(
+    await Promise.all(
       dto.genres.map((id) => {
         return this.categMovieRepository.create({
           filmId: movie.id,
@@ -171,17 +210,34 @@ export class MoviesService {
     return result;
   }
 
-  async getAllMoviesWithSessionsByDateAndByCinemaHalls(
+  async getAllMoviesByFilters(
     dateStart: string,
     dateEnd: string,
-    cinemaHalls: string,
+    cinemaHalls?: string,
   ) {
-    const halls = cinemaHalls.split(',').map((hall) => Number(hall));
-
-    const dateMax = new Date(dateEnd);
     const dateMin = new Date(dateStart);
+    const dateMax = new Date(dateEnd);
 
-    const result = await this.moviesRepository.findAll({
+    if (cinemaHalls) {
+      console.log(222222222222, cinemaHalls == undefined);
+      const halls = cinemaHalls.split(',').map((hall) => Number(hall));
+
+      return await this.getAllMoviesWithSessionsByDateAndByCinemaHalls(
+        dateMin,
+        dateMax,
+        halls,
+      );
+    } else {
+      return await this.getAllMoviesWithSessionsByDate(dateMin, dateMax);
+    }
+  }
+
+  async getAllMoviesWithSessionsByDateAndByCinemaHalls(
+    dateMin: Date,
+    dateMax: Date,
+    cinemaHalls: number[],
+  ) {
+    return await this.moviesRepository.findAll({
       include: {
         model: Session,
         required: true,
@@ -191,10 +247,40 @@ export class MoviesService {
 
             [Op.gte]: dateMin.setMinutes(dateMin.getMinutes() - 1),
           },
-          cinema_hall_id: { [Op.in]: halls },
+          cinema_hall_id: { [Op.in]: cinemaHalls },
         },
       },
       // order: [[Session, 'session_start', 'ASC']],
+    });
+  }
+
+  async getAllMoviesWithSessionsByDate(dateMin: Date, dateMax: Date) {
+    const result = await this.moviesRepository.findAll({
+      include: [
+        {
+          model: Session,
+          required: true,
+          where: {
+            date: {
+              [Op.lte]: dateMax.setMinutes(dateMax.getMinutes() + 1),
+
+              [Op.gte]: dateMin.setMinutes(dateMin.getMinutes() - 1),
+            },
+          },
+        },
+        {
+          model: Actors,
+          through: { attributes: [] },
+        },
+        {
+          model: Directors,
+          through: { attributes: [] },
+        },
+        {
+          model: Category,
+          through: { attributes: [] },
+        },
+      ],
     });
 
     return result;
