@@ -91,7 +91,7 @@ export class Movies extends Model<Movies, MovieCreationAttrs> {
     example: '120',
     description: 'Movie duration',
   })
-  @Column({ type: DataType.NUMBER })
+  @Column({ type: DataType.INTEGER })
   duration: number;
 
   @Column({ type: DataType.STRING, allowNull: true })

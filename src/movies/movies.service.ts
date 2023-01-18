@@ -219,7 +219,6 @@ export class MoviesService {
     const dateMax = new Date(dateEnd);
 
     if (cinemaHalls) {
-      console.log(222222222222, cinemaHalls == undefined);
       const halls = cinemaHalls.split(',').map((hall) => Number(hall));
 
       return await this.getAllMoviesWithSessionsByDateAndByCinemaHalls(
