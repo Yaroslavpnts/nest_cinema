@@ -13,15 +13,16 @@ export class RolesService {
   }
 
   async getRoleByValue(value: string) {
-    const response = this.rolesRepository.findOne({
+    console.log('1111111111111111111', value);
+    const response = await this.rolesRepository.findOne({
       where: { value },
-      include: { all: true },
     });
+    console.log('22222222222', value);
     return response;
   }
 
   async getRoleById(id: string) {
-    const response = this.rolesRepository.findOne({
+    const response = await this.rolesRepository.findOne({
       where: { id },
       include: { all: true },
     });
